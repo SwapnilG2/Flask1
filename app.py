@@ -134,8 +134,6 @@ def get_coordinates_from_address(address):
 # tuple_list = list(rest.itertuples(index=False,name=None))
 # print(tuple_list)
 
-from google.colab.output import eval_js
-print(eval_js("google.colab.kernel.proxyPort(5000)"))
 
 from os import name
 # from flask_ngrok import run_with_ngrok
@@ -145,7 +143,7 @@ from flask import Flask,render_template,url_for,request
 app = Flask(__name__,template_folder="/content/drive/MyDrive/Colab Notebooks/flask/templates",static_folder="/content/drive/MyDrive/Colab Notebooks/flask/static")
 
 #---------------------------------------
-top_places_in_nagpur = get_coordinates_from_address(name)
+top_places_in_nagpur = get_coordinates_from_address("Dharampeth,Nagpur")
 
 result = find_same_cluster(df,top_places_in_nagpur[0],top_places_in_nagpur[1],count=10)
 rest=result[['Restaurant Name','Rating','Address','Area','Veg',]]
@@ -156,11 +154,10 @@ headings= ('Restaurant Name','Rating','Address','Area','Veg')
 data = list(rest.itertuples(index=False,name=None))
 @app.route("/")
 def home():
-  if request.method=='GET':
-    print("poste!")
-    name = request.form.get('input')
-
-  else:
-    print("get !")
-    name = request.form['input']
-  return render_template("index.html",headings=headings,data=data)+ name
+    if request.method=='GET':
+      print("poste!")
+    # name = requests.form.get('input')
+    else:
+      print("get !")
+    # name = request.form['input']
+    return render_template("index.html",headings=headings,data=data)
