@@ -143,19 +143,21 @@ from flask import Flask,render_template,url_for,request
 app = Flask(__name__,template_folder="/content/drive/MyDrive/Colab Notebooks/flask/templates",static_folder="/content/drive/MyDrive/Colab Notebooks/flask/static")
 
 #---------------------------------------
-top_places_in_nagpur = get_coordinates_from_address("Dharampeth,Nagpur")
-
-result = find_same_cluster(df,top_places_in_nagpur[0],top_places_in_nagpur[1],count=10)
-rest=result[['Restaurant Name','Rating','Address','Area','Veg',]]
-
+give = None
 
 # run_with_ngrok(app)
 headings= ('Restaurant Name','Rating','Address','Area','Veg')
-data = list(rest.itertuples(index=False,name=None))
+
 @app.route("/")
 def home():
+    global give
     if request.method=='GET':
-      print("poste!")
+      name = str(request.form('input'))
+      give= str(name +',Nagpur')
+      top_places_in_nagpur = get_coordinates_from_address("Dharampeth,Nagpur")
+      result = find_same_cluster(df,top_places_in_nagpur[0],top_places_in_nagpur[1],count=10)
+      rest=result[['Restaurant Name','Rating','Address','Area','Veg',]]
+      data = list(rest.itertuples(index=False,name=None))
     # name = requests.form.get('input')
     else:
       print("get !")
